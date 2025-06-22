@@ -13,13 +13,18 @@ const port = process.env.PORT || 3001;
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://westfert-fertilisers.vercel.app",
+    ],
+    credentials: true,
+  })
+);
 
 // Connect to MongoDB
-connectDB().catch((err) => {
-  console.error("Failed to connect to MongoDB", err);
-  process.exit(1);
-});
+connectDB();
 
 // Routes
 app.use("/api/auth", authRoutes);

@@ -9,6 +9,17 @@ const getUserCollection = () => {
   return db.collection("users");
 };
 
+router.get('/', async(req, res)=>{
+  try{
+    const userCollection = getUserCollection()
+    const result = await userCollection.find().toArray()
+    res.send(result)
+  }catch (err) {
+    console.error(err);
+    res.status(401).json({ message: "Something went wrong" });
+  }
+})
+
 // Route to get user profile by email
 router.get("/profile", async (req, res) => {
   const token = req.cookies.authToken;

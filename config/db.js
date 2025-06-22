@@ -1,27 +1,22 @@
 const { MongoClient } = require("mongodb");
+const dotenv = require("dotenv");
+dotenv.config();
 
-const mongoUrl = process.env.DB_URI;
-// console.log(mongoUrl);
-const dbName = "westfertDB";
+const uri = process.env.DB_URI;
+const client = new MongoClient(uri);
 
 let db;
-
 async function connectDB() {
   try {
-    const client = await MongoClient.connect(mongoUrl, {
-    //   useUnifiedTopology: true,
-    });
-    db = client.db(dbName);
+    // await client.connect();
+    db = client.db("westfertDB");
     console.log("Connected to MongoDB");
-    return db;
-  } catch (err) {
-    console.error("MongoDB connection error:", err);
-    throw err;
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
   }
 }
 
 function getDB() {
-  if (!db) throw new Error("Database not connected");
   return db;
 }
 
